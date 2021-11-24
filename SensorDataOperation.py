@@ -59,7 +59,7 @@ if __name__ == '__main__':
                 "coordinates": [136.6285, 36.5313]
             }
         },
-        "SensorDataOperationTest": {
+        "name": {
             "type": "Text",
             "value": "SensorDataOperationTest"
         }
