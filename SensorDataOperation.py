@@ -42,7 +42,7 @@ if __name__ == '__main__':
     import datetime
 
     nowtime = str(datetime.datetime.now())
-    dataType = 'HakusanTemperature'
+    dataType = 'SensorDataOperationTest'
     deviceNumber = '001'
     id = 'urn:ngsi-ld:'+ dataType +':'+ deviceNumber
     postData = { 
@@ -55,24 +55,47 @@ if __name__ == '__main__':
         "location": {
             "type": "geo:json",
             "value": {
-                "Type": "Point",
-                "coordinates": [36.5313,136.6285]
+                "type": "Point",
+                "coordinates": [136.6285, 36.5313]
             }
         },
-        "temperature": {
-            "type": "Temperature",
-            "value": {
-                "value": "25",
-                "unit": "Degree"
-            }
+        "SensorDataOperationTest": {
+            "type": "Text",
+            "value": "SensorDataOperationTest"
         }
     }
 
-    sdo = SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber, postData=postData)
-    print(sdo.post())
-    # a = SensorDataOperation().get_all().json()
+    # インスタンス化。 dataTypeとdeviceNumberは必須。
+    sdo = SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber)
+    # ここでpostDataを引数に入れてもよい。後で変えることもできる。
+    # sdo = SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber, postData=postData)
+
+    # postDataをpostする。 新しくデータをpostする場合はここでpostDataを引数に入れる。
+    print(sdo.post(postData=postData))
+    # インスタンス化する際にpostDataを引数に入れている場合はここでの引数は無くても良い。
+    # print(sdo.post())
+
+    # FIWAREにあるデータを全部getする。
+    # a = SensorDataOperation().get_all()
+    # a = sdo.get_all() # 上の行と同じ。
     # print(a)
+    # print(a.json())
+
+    # getする
     getdata = sdo.get()
     print(getdata)
+
+    # getしたデータをjson形式で表示する
     print(getdata.json())
+
+    # postしたデータをdeleteする
     print(sdo.delete())
+
+    # fiwareURL
+    print(sdo.fiwareUrl)
+    
+    # dataId
+    print(sdo.dataId)
+
+    # fiwareId
+    print(sdo.fiwareId)
