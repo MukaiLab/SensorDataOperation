@@ -3,7 +3,7 @@ import datetime, SensorDataOperation
 
 def main():
   nowtime = str(datetime.datetime.now())
-  dataType = 'Test'
+  dataType = 'SensorDataOperationTest'
   deviceNumber = '001'
 
   sdo = SensorDataOperation.SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber)
