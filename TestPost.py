@@ -31,7 +31,6 @@ def main():
   print(postData)
   response = sdo.post(postData=postData)
   print(response)
-  sdo.delete()
-
+  
 if __name__ == "__main__":
   main()
