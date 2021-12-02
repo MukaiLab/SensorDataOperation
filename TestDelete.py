@@ -2,7 +2,7 @@ import SensorDataOperation
 
 
 def main():
-  dataType = 'Test'
+  dataType = 'SensorDataOperationTest'
   deviceNumber = '001'
 
   sdo = SensorDataOperation.SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber)
