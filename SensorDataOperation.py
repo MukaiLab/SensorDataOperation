@@ -4,11 +4,10 @@ import requests, json
 
 
 class SensorDataOperation:
-    def __init__(self, dataType='dataType', deviceNumber='deviceNumber', postData=None, ipaddr='202.13.160.82:1026'):
+    def __init__(self, dataType='dataType', deviceNumber='deviceNumber', ipaddr='202.13.160.82:1026'):
         self.dataId = 'urn:ngsi-ld:'+ dataType +':'+ deviceNumber
         self.fiwareUrl = r'http://' + ipaddr + r'/v2/entities/'
         self.fiwareId = self.fiwareUrl + self.dataId
-        self.postData = postData
         self.headers = {'Content-Type':'application/json',}
         self.fAPI = "?options=keyValues"
 
@@ -17,11 +16,9 @@ class SensorDataOperation:
         return requests.delete(self.fiwareId)
 
 
-    def post(self, postData=None):
-        if postData is not None:
-            self.postData = postData
+    def post(self, postData='postData'):
         self.delete()
-        return requests.post(self.fiwareUrl, headers=self.headers, data=json.dumps(self.postData))
+        return requests.post(self.fiwareUrl, headers=self.headers, data=json.dumps(postData))
 
 
     def get(self, need_metadata=True):
@@ -44,9 +41,12 @@ if __name__ == '__main__':
     nowtime = str(datetime.datetime.now())
     dataType = 'SensorDataOperationTest'
     deviceNumber = '001'
-    id = 'urn:ngsi-ld:'+ dataType +':'+ deviceNumber
+
+    # インスタンス化。 dataTypeとdeviceNumberは必須。
+    sdo = SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber)
+
     postData = { 
-        "id": id,
+        "id": sdo.dataId,
         "type": dataType,
         "dateissued": {
             "type": "TimeDate",
@@ -65,15 +65,9 @@ if __name__ == '__main__':
         }
     }
 
-    # インスタンス化。 dataTypeとdeviceNumberは必須。
-    sdo = SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber)
-    # ここでpostDataを引数に入れてもよい。後で変えることもできる。
-    # sdo = SensorDataOperation(dataType=dataType, deviceNumber=deviceNumber, postData=postData)
 
-    # postDataをpostする。 新しくデータをpostする場合はここでpostDataを引数に入れる。
+    # postDataをpostする。
     print(sdo.post(postData=postData))
-    # インスタンス化する際にpostDataを引数に入れている場合はここでの引数は無くても良い。
-    # print(sdo.post())
 
     # FIWAREにあるデータを全部getする。
     # a = SensorDataOperation().get_all()
