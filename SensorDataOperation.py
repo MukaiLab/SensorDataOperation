@@ -4,9 +4,9 @@ import requests, json
 
 
 class SensorDataOperation:
-    def __init__(self, dataType='dataType', deviceNumber='deviceNumber', ipaddr='202.13.160.82:1026'):
+    def __init__(self, dataType='dataType', deviceNumber='deviceNumber', ipaddr='202.13.160.82', port="1026"):
         self.dataId = 'urn:ngsi-ld:'+ dataType +':'+ deviceNumber
-        self.fiwareUrl = r'http://' + ipaddr + r'/v2/entities/'
+        self.fiwareUrl = r'http://' + ipaddr + port + r'/v2/entities/'
         self.fiwareId = self.fiwareUrl + self.dataId
         self.headers = {'Content-Type':'application/json',}
         self.fAPI = "?options=keyValues"
@@ -16,7 +16,7 @@ class SensorDataOperation:
         return requests.delete(self.fiwareId)
 
 
-    def post(self, postData='postData'):
+    def post(self, postData):
         self.delete()
         return requests.post(self.fiwareUrl, headers=self.headers, data=json.dumps(postData))
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
 
     # postDataをpostする。
-    print(sdo.post(postData=postData))
+    print(sdo.post(postData))
 
     # FIWAREにあるデータを全部getする。
     # a = SensorDataOperation().get_all()
