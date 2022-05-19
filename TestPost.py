@@ -29,7 +29,7 @@ def main():
   }
   
   print(postData)
-  response = sdo.post(postData=postData)
+  response = sdo.post(postData)
   print(response)
   
 if __name__ == "__main__":
